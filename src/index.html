@@ -7,11 +7,74 @@
     <title>Homework 10</title>
   </head>
   <body>
-    <!-- <input type="text" id="search-box" />
-    <ul class="country-list"></ul>
-    <div class="country-info"></div> -->
-   <button type="button" class="btn">Fetch users</button>
-      <ul class="user-list"></ul>
-    <script src="index.js" type="module"></script>
+    <div class="status"></div>
+      <ul class="users-list"></ul>
+      <!-- <ul class="posts-container"></ul>
+      <button class="load-more">LOAD MORE POSTS</button>
+       <div class="pagination-container"></div> -->
+  
+
+<!-- //       const postsContainer = document.querySelector(".posts-container");
+//       const loadMorePostsBtn = document.querySelector(".load-more");
+//       let currentPage = 1;
+
+//       const POSTS_API_URL = 'https://jsonplaceholder.typicode.com/posts';
+//       const POSTS_PER_PAGE = 10;
+
+//   const getPosts = (page) => {
+//      let postListMarkup = "";
+//   const params = new URLSearchParams({
+//     _limit: POSTS_PER_PAGE,
+//     _page: page,
+//   })
+//   fetch(POSTS_API_URL + "?" + params)
+//     .then((response) => response.json())
+//   .then((posts) => {
+//     posts.forEach((post) => {
+//       postListMarkup += `
+//       <li>
+//       <h3>[${post.id}] ${post.title}</h3>
+//       <p>${post.body}</p>
+//       </li>`
+//     })
+//     //TODO: Add postListMarkupto Page Dom
+//     postsContainer.insertAdjacentHTML("beforeend", postListMarkup)
+//   })
+// }
+
+// loadMorePostsBtn.addEventListener("click", ()=>{
+//   fetch(POSTS_API_URL).then((response) => response.json()).then((posts)=>{
+//     console.log("ALL POSTS:", posts.length)
+//     const maxPageNum = posts.length / POSTS_PER_PAGE;
+//     //console.log("maxPageNum:", maxPageNum)
+//      currentPage++;
+//   getPosts(currentPage);
+//   if(currentPage === maxPageNum){
+//     loadMorePostsBtn.style.display = "none";
+//   }
+//   })
+ 
+// })
+
+// const setPagination = () => {
+//   let paginationMarkup = "";
+//   for (let i = 1; i <= 10; i++){
+//    paginationMarkup += `<button>${i}</button>`
+//   }
+//   paginationContainer.innerHTML = paginationMarkup;
+  
+//   const buttons = document.querySelectorAll("button");
+//   buttons.forEach((button)=> {
+//     button.addEventListener("click", (e)=>{
+//         const pageNumber = e.target.textContent;
+//         console.log("e.target",pageNumber)
+//         getPosts(3);
+//     })
+//   })
+// }
+// getPosts(currentPage);
+//setPagination(); -->
+
+<script src="index.js" type="module"></script>
   </body>
 </html>
