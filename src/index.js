@@ -1,93 +1,69 @@
 import './css/styles.css';
-//https://jsonplaceholder.typicode.com/users
-const fetchUsers = fetch('https://jsonplaceholder.typicode.com/users');
 
-const statusIndicator = document.querySelector(".status");
-const usersList = document.querySelector(".users-list");
-let usersData = [];
-  
-function writeCurrentStatus(text) {
-  statusIndicator.innerHTML = text;
-}
+const API_URL_POSTS = 'https://jsonplaceholder.typicode.com/posts';
+const POSTS_PER_PAGE = 10;
 
-function printUsers(users) {
-  let usersListHTML = "";
-  users.forEach((user) => {
-    usersListHTML += `
-    <li>${user.name}</li>`
-  });
-  usersList.innerHTML = usersListHTML;
-}
 
-function makeUsersClickable() {
-  const users = document.querySelectorAll(".users-list li")
-  users.forEach((user) => {
-    user.addEventListener("click", (event){
-       
+const postsContainer = document.querySelector(".posts-container");
+const loadMorePostsButton = document.querySelector(".load-more");
+let currentPage = 1;
+
+const getPosts = (page) => {
+    let postListMarkup = "";
+    const params = new URLSearchParams({
+        _limit: POSTS_PER_PAGE,
+        _page: page
     })
-  })
+    fetch(API_URL_POSTS + "?" + params)
+        .then((response) => response.json())
+        .then((posts) => {
+            posts.forEach((post) => {
+                postListMarkup += `
+                <li>
+                <h3>[${post.id}]${post.title}</h3>
+                <p>${post.body}</p>
+                </li>
+                `;
+            });
+            //adding posts markup to DOM
+            postsContainer.insertAdjacentHTML("beforeend", postListMarkup);
+        });
 }
-
-writeCurrentStatus("Loading...")
-
-fetchUsers
-  .then((response) => {
-  //console.log("response:", response);
-  const usersData = response.json();
-  //console.log("usersData:", usersData);
-  return usersData
-})
-  .then((recivedUsersData) => {
-    console.log('recivedUsersData:', recivedUsersData);
-    printUsers(recivedUsersData);
-    makeUsersClickable();
-  })
-  .catch((error) => {
-    console.log("WE have a problem:, error")
-  })
-  .finally(() => {
-    writeCurrentStatus("");
-  })
-console.log("users data:", usersData)
+loadMorePostsButton.addEventListener("click", () => {
+    fetch(API_URL_POSTS)
+        .then((response) => response.json())
+        .then((posts) => {
+            //console.log(posts);
+            const maxPage = posts.length / POSTS_PER_PAGE;
+            console.log("maxPage", maxPage);
+            currentPage++;
+            getPosts(currentPage);
+            if (currentPage === 10) {
+                loadMorePostsButton.style.display = 'none';
+            }
+        });
+    
+});
+getPosts(currentPage);
 
 
-
-
-// 
-// const postsContainer = document.querySelector(".posts-container");
-// const paginationContainer = document.querySelector('.pagination-container');
-
-
-// const POSTS_API_URL = 'https://jsonplaceholder.typicode.com/posts';
-// const POSTS_PER_PAGE = 10;
-
-// const getPosts = (page) => {
-//   let postListMarkup = "";
-//   const params = new URLSearchParams({
-//     _limit: POSTS_PER_PAGE,
-//     _page: page,
-//   })
-//   fetch(POSTS_API_URL + "?" + params)
-//     .then((response) => response.json())
-//   .then((posts) => {
-//     posts.forEach((post) => {
-//       postListMarkup += `
-//       <li>
-//       <h3>${post.title}</h3>
-//       <p>${post.body}</p>
-//       </li>`
-//     })
-//     //TODO: Add postListMarkupto Page Dom
-//     postsContainer.innerHTML = postListMarkup
-//   })
-// }
 
 // const setPagination = () => {
-//   let paginationMarkup = "";
-//   for (let i = 1; i <= 10; i++){
-//    paginationMarkup += ` <button>${1}</button>`
-//   }
-//   paginationContainer.innerHTML = paginationMarkup;
-// }
-// getPosts(2);
-// setPagination()
+//     let paginationMarkup = "";
+//     for (let i = 1; i <= 10; i++) {
+//         paginationMarkup += `
+//         <button>${i}</button>`;
+//     }
+//     paginationContainer.innerHTML = paginationMarkup;
+
+//     const buttons = document.querySelectorAll("button");
+//     buttons.forEach((button) => {
+//         button.addEventListener("click", (event) => {
+//             const pageNumber = event.target.textContent;
+//             //console.log("target", pageNumber)
+//             getPosts(pageNumber);
+//         })
+//     })
+// };
+// getPosts(1);
+//setPagination();
